@@ -21,99 +21,129 @@ function App() {
 		setDynamicUserNamePlaceHolder(userNameGenerator.generateUsername());
 	}
 
-	const  validateUser = () => {
-		axios.post("http://localhost:3500/auth", {
-			user : userName,
-			pwd : userPassword,
+	const  validateUser = (event) => {
+		event.preventDefault();
+		axios.post("http://localhost:3500/auth/login", {
+			email : userName,
+			password : userPassword,
+		},{
+			timeout:0,
 		}).then((response)=> {
 			console.log(response);
-      if(response.status === 200 ? setLogInState(true) : setLogInState(false));
-		}).catch(error => console.log(error))
-	}
+      if(response.status === 200){
+		localStorage.setItem('user',JSON.stringify(response.data));
+		setLogInState(true);
+		//redirect to the dashboard
+	  }
+	}).catch(error =>{
+		if (axios.isCancel(error)) {
+		console.log('Request canceled', error.message);
+		} else if (error.code === 'ECONNABORTED') {
+		console.log('Timeout error: ', error.message);
+		} else {
+		alert("Login Failed:" + error.message);	
+		console.log('Login error: ', error);
+		}
+	});
+	};
 
-	const  registerUser = () => {
-		axios.post("http://localhost:3500/register", {
-			user : userName,
-			pwd : userPassword,
+	const  registerUser = (event) => {
+		event.preventDefault();
+		axios.post("http://localhost:3500/auth/register", {
+			email : userName,
+			password : userPassword,
 		}).then((response)=> {
 			console.log(response);
-		}).catch(error => console.log(error))
-	}
-
-
-	return (
+			alert("Registration successful! Please log in.");
+		}).catch(error => {
+			console.log(error);
+			alert("Registration Failed:" + error.message);	
+		});
+	};
 	
-    <div>
-			<div className={dynamicclassName ? "container right-panel-active" : "container"} id="container">
-		<div className="form-container sign-up-container">
-			<form action="#">
-				<h1>Create Account</h1>
-				<span>choose a cool name for registration</span>
-				<input 
-					type="username" 
-					placeholder= {`Username: ${dynamicUserNamePlaceHolder}`}
-					onChange = {(event) => setUserName(event.target.value)}
-				/>
-				<input 
-					type="password" 
-					placeholder="Password" 
-					autoComplete='' 
-					onChange = {(event) => setUserPassword(event.target.value)}
-				/>
-				<button
-					onClick={() => {registerUser()}}
-				>Sign Up</button>
-			</form>
-		</div>
-		<div className="form-container sign-in-container">
-			<form id='signIn' action="#">
-				<h1>Sign in</h1>
-				<span>using your account</span>
-				<input 
-					type="username" 
-					name='uname' 
-					placeholder={`Username: ${dynamicUserNamePlaceHolder}`} 
-					onChange = {(event) => setUserName(event.target.value)}
-				/>
-				<input 
-					type="password" 
-					name='pass' 
-					placeholder="Password" 
-					autoComplete=''
-					onChange = {(event) => setUserPassword(event.target.value)}
-				/>
 
-				<a>Forgot your password?</a>
-				<button
-					onClick={() => {validateUser()}}
-				>Sign In</button>
-			</form>
+	if(logInState){
+		return(
+		<div>
+			<h1> Logged in!</h1>
 		</div>
-		<div className="overlay-container">
-			<div className="overlay">
-				<div className="overlay-panel overlay-left">
-					<h1>Welcome Back!</h1>
-					<p>Get back to your notes?</p>
-					<button 
-						className="ghost" 
-						id="signIn"
-						onClick={() => {signInHandleClick()}}
-					>Sign In</button>
-				</div>
-				<div className="overlay-panel overlay-right">
-					<h1>Hello!</h1>
-					<p>Visit the great note taking application</p>
-					<button 
-						className="ghost" 
-						id="signUp"
-						onClick={() => {signUpHandleClick()}}
+		)
+	}else{
+		return (
+		<div>
+				<div className={dynamicclassName ? "container right-panel-active" : "container"} id="container">
+			<div className="form-container sign-up-container">
+				<form action="#">
+					<h1>Create Account</h1>
+					<span>choose a cool name for registration</span>
+					<input 
+						type="username" 
+						id='username1'
+						name='username'
+						placeholder= {`Username: ${dynamicUserNamePlaceHolder}`}
+						onChange = {(event) => setUserName(event.target.value)}
+					/>
+					<input 
+						type="password" 
+						id='password1'
+						name='password'
+						placeholder="Password" 
+						onChange = {(event) => setUserPassword(event.target.value)}
+					/>
+					<button
+						onClick={() => {registerUser()}}
 					>Sign Up</button>
+				</form>
+			</div>
+			<div className="form-container sign-in-container">
+				<form id='signIn' onSubmit={validateUser}>
+					<h1>Sign in</h1>
+					<span>using your account</span>
+					<input 
+						type="username" 
+						id='username2'
+						name='uname' 
+						placeholder={`Username: ${dynamicUserNamePlaceHolder}`} 
+						onChange = {(event) => setUserName(event.target.value)}
+					/>
+					<input 
+						type="password" 
+						id='password2'
+						name='pass' 
+						placeholder="Password" 
+						onChange = {(event) => setUserPassword(event.target.value)}
+					/>
+	
+					<a href="#">Forgot your password?</a>
+					<button type='submit'>Sign In</button>
+				</form>
+			</div>
+			<div className="overlay-container">
+				<div className="overlay">
+					<div className="overlay-panel overlay-left">
+						<h1>Welcome Back!</h1>
+						<p>Get back to your notes?</p>
+						<button 
+							className="ghost" 
+							id="signIn"
+							onClick={() => {signInHandleClick()}}
+						>Sign In</button>
+					</div>
+					<div className="overlay-panel overlay-right">
+						<h1>Hello!</h1>
+						<p>Visit the great note taking application</p>
+						<button 
+							className="ghost" 
+							id="signUp"
+							onClick={() => {signUpHandleClick()}}
+						>Sign Up</button>
+					</div>
 				</div>
 			</div>
+				</div>
 		</div>
-			</div>
-    </div>
-  )
+	  )
+	}
 }
 
 export default App

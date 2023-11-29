@@ -28,12 +28,13 @@ const  validateUser = (event) => {
         email : userName,
         password : userPassword,
     }).then((response)=> {
-        console.log(response);
+        // console.log(response);
   if(response.status === 200){
-    localStorage.setItem('user',JSON.stringify(response.data));
-    setLogInState(true);
+	const token = response.headers['authorization'];
+	localStorage.setItem('user_bearer_token',token);
+	setLogInState(true);
 	navigate('/dashboard'); // Navigate to dashboard after login
-    //redirect to the dashboard
+	//redirect to the dashboard
   }
 }).catch(error =>{
     if (axios.isCancel(error)) {

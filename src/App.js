@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
 import SignIn from './components/SignIn'; // Make sure this import is correct
+import Protected from './components/Protected';
 
 import "./App.css";
 
@@ -24,6 +25,7 @@ const App = () => {
 				<Route path="/signin" element={!logInState ? <SignIn setLogInState={setLogInState}/> : <Navigate replace to="/dashboard" />} />
 				<Route path="/dashboard" element={logInState ? <Dashboard setLogInState={setLogInState}/> : <Navigate replace to="/signin" />} />
 				<Route path="/profile" element={logInState ? <Profile /> : <Navigate replace to="/signin" />} />
+				<Route path="/protected" element={<Protected />} />
 				{/* other routes */}
 			</Routes>
 		</Router>

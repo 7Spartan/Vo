@@ -6,7 +6,7 @@
 }
 
 body {
-	background: #f6f5f7;
+	background: #292F3F;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -224,6 +224,10 @@ input {
 	margin: 0 5px;
 	height: 40px;
 	width: 40px;
+}
+
+.just_text{
+	color: #FFFFFF;
 }
 
 footer {

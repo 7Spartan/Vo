@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import AddItemForm from "./AddItemForm";
 
 const Dashboard = ({setLogInState}) =>{
 const navigate = useNavigate();
@@ -12,8 +12,8 @@ const handleLogout = (event) => {
 };
 return(
     <div className="dashboard">
-        <Sidebar/>
-        <p>Welcome to Dashboard!</p>
+        <p className='just_text'>Welcome to the Dashboard!</p>
+        <AddItemForm/>
         <button onClick={handleLogout}>Logout</button>
     </div>
 );

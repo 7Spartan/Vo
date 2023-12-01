@@ -24,7 +24,7 @@ const signInHandleClick = () => {
 
 const  validateUser = (event) => {
     event.preventDefault();
-    axios.post("http://localhost:3500/auth/login", {
+    axios.post("http://192.168.1.73:3500/auth/login", {
         email : userName,
         password : userPassword,
     }).then((response)=> {
@@ -50,7 +50,7 @@ const  validateUser = (event) => {
 
 const  registerUser = (event) => {
     event.preventDefault();
-    axios.post("http://localhost:3500/auth/register", {
+    axios.post("http://192.168.1.73:3500/auth/register", {
         email : userName,
         password : userPassword,
     }).then((response)=> {

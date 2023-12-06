@@ -37,7 +37,7 @@ const AddItemForm = () => {
         try {
             console.log(token);
             const response = await axios.post(
-                'http://192.168.1.73:3500/item/add', 
+                'http://ec2-3-144-160-121.us-east-2.compute.amazonaws.com:3500/item/add', 
                 bodyParameters,
                 config
             );
@@ -53,6 +53,7 @@ const AddItemForm = () => {
 
     return (
         <form onSubmit={handleSubmit}>
+            <p>Add items</p>
             <input type="text" value={item.name} onChange={(e) => setItem({...item, name: e.target.value})} placeholder="Item Name" required />
             {/* Other input fields */}
 

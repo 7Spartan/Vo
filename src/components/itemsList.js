@@ -9,7 +9,7 @@ const ItemsList = () => {
             try {
                 // Replace with your actual token retrieval method
                 const token = localStorage.getItem('user_bearer_token');
-                const response = await axios.get('http://192.168.1.73:3500/item/list', {
+                const response = await axios.get('http://ec2-3-144-160-121.us-east-2.compute.amazonaws.com:3500/item/list', {
                     headers: {
                         Authorization: token
                     }

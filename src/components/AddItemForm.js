@@ -39,7 +39,7 @@ const AddItemForm = () => {
         try {
             console.log(`Adding in progress`);
             const response = await axios.post(
-                'http://localhost:3500/item/add', 
+                'http://ec2-3-144-160-121.us-east-2.compute.amazonaws.com:3500/item/add', 
                 bodyParameters,
                 config
             );

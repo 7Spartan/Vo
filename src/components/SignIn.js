@@ -24,7 +24,7 @@ const signInHandleClick = () => {
 
 const  validateUser = (event) => {
     event.preventDefault();
-    axios.post("http://localhost:3500/auth/login", {
+    axios.post("http://ec2-3-144-160-121.us-east-2.compute.amazonaws.com:3500/auth/login", {
         email : userName,
         password : userPassword,
     }).then((response)=> {
@@ -50,7 +50,7 @@ const  validateUser = (event) => {
 
 const  registerUser = (event) => {
     event.preventDefault();
-    axios.post("http://localhost:3500/auth/register", {
+    axios.post("http://ec2-3-144-160-121.us-east-2.compute.amazonaws.com:3500/auth/register", {
         email : userName,
         password : userPassword,
     }).then((response)=> {

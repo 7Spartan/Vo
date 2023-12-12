@@ -50,7 +50,7 @@ const Dashboard = ({setLogInState}) =>{
     return(
         <ItemsProvider>
             <div className="dashboard">
-                <p className='just_text'>Welcome to the Dashboard!</p>
+                {/* <p className='just_text'>Welcome to the Dashboard!</p> */}
                 <AddItemForm/>
                 <ItemsList itemslist={itemslist}/>
                 <EventList events={events}/>

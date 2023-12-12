@@ -59,7 +59,7 @@ const AddItemForm = () => {
     return (
         <section className="add-items">
             <form onSubmit={handleSubmit}>
-                <p>Add items</p>
+                {/* <p>Add items</p> */}
                 <input type="text" value={item.name} onChange={(e) => setItem({...item, name: e.target.value})} placeholder="Item Name" required />
                 {/* Other input fields */}
 

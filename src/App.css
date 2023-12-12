@@ -6,7 +6,7 @@
 }
 
 body {
-	background: #5b3a6a;
+	background: #2d1d35;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -83,6 +83,7 @@ form {
 	padding: 0 50px;
 	height: 100%;
 	text-align: center;
+	border-radius: 4px; /* Optional: rounds the corners */
 }
 
 input {
@@ -315,6 +316,20 @@ table {
     border: 1px solid #ddd;
     border-radius: 5px;
     width: calc(100% - 22px);
+}
+
+
+.item-list{
+	max-height: 400px; /* Adjust the height as needed */
+    overflow-y: auto;
+    margin: 20px 0; /* Add some spacing */
+    padding: 15px; /* Add some padding */
+    border: 1px solid #ccc; /* Optional: adds a border around the list */
+    border-radius: 4px; /* Optional: rounds the corners */
+}
+
+.dashboard .add-items{
+	border-radius: 4px; /* Optional: rounds the corners */
 }
 
 /* Add styles for table or list here */

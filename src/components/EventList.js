@@ -6,7 +6,7 @@ const EventList = ({ events }) =>{
     return(
         <section>
             <div className="event-list">
-                <h2>Upcoming Events</h2>
+                {/* <h2>Upcoming Events</h2> */}
                 {events.length > 0 ? (
                     <ul>
                         {events.map((event, index) => (

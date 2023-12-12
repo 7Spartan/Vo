@@ -6,7 +6,7 @@
 }
 
 body {
-	background: #292F3F;
+	background: #5b3a6a;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -46,8 +46,8 @@ a {
 
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid #5b3a6a;
+	background-color: #8247a3;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -68,6 +68,10 @@ button:focus {
 button.ghost {
 	background-color: transparent;
 	border-color: #FFFFFF;
+}
+
+button:hover {
+    background-color: #5b3a6a;
 }
 
 form {
@@ -160,9 +164,9 @@ input {
 }
 
 .overlay {
-	background: #FF416C;
-	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
+	background: #bc84cf;
+	background: -webkit-linear-gradient(to right, #bc84cf, #e6c6e4);
+	background: linear-gradient(to right, #8247a3, #bc84cf);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
@@ -265,3 +269,53 @@ table {
 	height: 100%;
 	text-align: center;
 }
+
+
+.dashboard {
+    font-family: 'Arial', sans-serif;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+.dashboard h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.dashboard .event-list, .dashboard .item-list {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.dashboard button {
+    background-color: #4CAF50; /* A more calm green */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dashboard button:hover {
+    background-color: #45a049;
+}
+
+.dashboard input[type="text"] {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: calc(100% - 22px);
+}
+
+/* Add styles for table or list here */
+

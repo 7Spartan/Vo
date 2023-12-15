@@ -19,23 +19,28 @@ const AddItemForm = () => {
         mobilenet.load().then(setModel);
     }, []);
     
+    
+    
     const startCamera = async() => {
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
             console.error('Browser does not support getUserMedia');
             return;
         }
-
+        
         try{
             const stream = await navigator.mediaDevices.getUserMedia({video:{aspectRatio:1}});
             setStream(stream);
-            if(videoRef.current){
-                videoRef.current.srcObject = stream;
-            }
         }catch(error){
             console.error('Error accessing camera:',error);
         }
     };
-
+    
+    useEffect(() => {
+        if (stream && videoRef.current) {
+            videoRef.current.srcObject = stream;
+        }
+    }, [stream]);
+    
     const captureImage = () => {
         if(videoRef.current && canvasRef.current){
             const context = canvasRef.current.getContext('2d');
@@ -115,29 +120,31 @@ const AddItemForm = () => {
                 {/* Other input fields */}
 
                 {/* Input for capturing the image */}
-                <input
+                {/* <input
                     type="file"
                     accept="image/*"
                     capture="environment" // Use 'user' for front camera on mobile devices
                     onChange={captureImage}
                     style={{ display: 'none' }} // Hide the default file input
                     id="cameraInput"
-                    />
+                /> */}
 
-                {!stream && (
-                    <button type="button" onClick={startCamera}>Start Camera</button>
-                )}
-
-                {stream && (
-                    <>
-                        <video ref={videoRef} autoPlay ></video>
-                        <canvas ref={canvasRef} style={{ display: 'none' }} width="300" height="300"></canvas>
-                        <button type="button" onClick={captureImage}>Take Picture</button>
-                    </>
-                )}
            
                 {/* Display the captured image if available */}
-                {image && <p> Image processing on the way!</p>}
+                {/* {image && <p> Image processing on the way!</p>} */}
+                <div>
+                    {!stream && (
+                        <button type="button" onClick={startCamera}>Start Camera</button>
+                    )} 
+    
+                    {stream && (
+                        <>
+                            <video ref={videoRef} autoPlay style={{ width: '100%', height: 'auto' }}></video>
+                            <canvas ref={canvasRef} style={{ display: 'none' ,width: '100%', height: 'auto' }} ></canvas>
+                            <button type="button" onClick={captureImage}>Take Picture</button>
+                        </>
+                    )}
+                </div>
 
                 <button type="submit">Add Item</button>
             </form>

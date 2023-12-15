@@ -21,14 +21,19 @@ const AddItemForm = () => {
     
     
     
-    const startCamera = async() => {
+    const startCamera = async(facingMode = 'environment') => {
+        if (stream) {
+            // Stop all tracks on the existing stream before switching
+            stream.getTracks().forEach(track => track.stop());
+        }
+
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
             console.error('Browser does not support getUserMedia');
             return;
         }
         
         try{
-            const stream = await navigator.mediaDevices.getUserMedia({video:{aspectRatio:1}});
+            const stream = await navigator.mediaDevices.getUserMedia({video:{aspectRatio:1, facingMode}});
             setStream(stream);
         }catch(error){
             console.error('Error accessing camera:',error);
@@ -73,6 +78,23 @@ const AddItemForm = () => {
             });
         }
 
+    };
+
+    useEffect(()=>{
+        //This function runs when the component unmounts
+        return () => {
+            if(stream){
+                stream.getTracks().forEach(track => track.stop());
+            }
+        };
+    },[stream]);
+
+    // Stop the camera stream when the component unmounts
+    const stopCamera = () => {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            setStream(null);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -134,14 +156,19 @@ const AddItemForm = () => {
                 {/* {image && <p> Image processing on the way!</p>} */}
                 <div>
                     {!stream && (
-                        <button type="button" onClick={startCamera}>Start Camera</button>
-                    )} 
+                        <>
+                            <button onClick={() => startCamera('user')}>Front Camera</button>
+                            <button onClick={() => startCamera('environment')}>Rear Camera</button>
+                        </>
+                    )}
     
                     {stream && (
                         <>
                             <video ref={videoRef} autoPlay style={{ width: '100%', height: 'auto' }}></video>
                             <canvas ref={canvasRef} style={{ display: 'none' ,width: '100%', height: 'auto' }} ></canvas>
                             <button type="button" onClick={captureImage}>Take Picture</button>
+                            <button type='button' onClick={stopCamera}>Stop Camera</button>
+                            
                         </>
                     )}
                 </div>

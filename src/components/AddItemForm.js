@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useItems } from './ItemsContext';
-import '@tensorflow/tfjs'
-const mobilenet = require('@tensorflow-models/mobilenet');
+require('@tensorflow/tfjs-backend-cpu');
+require('@tensorflow/tfjs-backend-webgl');
+const cocoSsd = require('@tensorflow-models/coco-ssd');
 
 const AddItemForm = () => {
     const [item, setItem] = useState({ name: '', description: '', price: 0, quantity: 1 });
@@ -16,7 +17,7 @@ const AddItemForm = () => {
 
     // Load the model once when the component mounts
     useEffect(() => {
-        mobilenet.load().then(setModel);
+        cocoSsd.load().then(setModel);
     }, []);
     
     
@@ -59,7 +60,7 @@ const AddItemForm = () => {
                 imgElement.onload = async() => {
                     if(model){
                         try{
-                            const newPredictions = await model.classify(imgElement);
+                            const newPredictions = await model.detect(imgElement);
                             setPredictions(newPredictions);
                             console.log(newPredictions);
                             
@@ -67,7 +68,7 @@ const AddItemForm = () => {
                                 const highestProbability = newPredictions[0];
                                 setItem(prevItem => ({
                                     ...prevItem,
-                                    name: highestProbability.className // Sets the item name to the most probable class
+                                    name: highestProbability.class // Sets the item name to the most probable class
                                 }));
                             }
                         } catch (error){

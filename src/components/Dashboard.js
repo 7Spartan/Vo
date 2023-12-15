@@ -29,7 +29,7 @@ const Dashboard = ({setLogInState}) =>{
         const fetchItems = async () => {
             try {
                 const token = localStorage.getItem('user_bearer_token');
-                const response = await axios.get('http://ec2-3-144-160-121.us-east-2.compute.amazonaws.com:3500/item/list', {
+                const response = await axios.get('https://192.168.1.71:3500/item/list', {
                     headers: {
                         Authorization: token
                     }

@@ -24,11 +24,14 @@ const signInHandleClick = () => {
 
 const  validateUser = (event) => {
     event.preventDefault();
-    axios.post("http://ec2-3-144-160-121.us-east-2.compute.amazonaws.com:3500/auth/login", {
+	console.log(`user trying to login`);
+    axios.post("https://192.168.1.71:3500/auth/login/", {
         email : userName,
         password : userPassword,
-    }).then((response)=> {
-        // console.log(response);
+    },{
+		withCredentials: true
+	}).then((response)=> {
+        console.log(response);
   if(response.status === 200){
 	const token = response.headers['authorization'];
 	localStorage.setItem('user_bearer_token',token);
@@ -50,7 +53,7 @@ const  validateUser = (event) => {
 
 const  registerUser = (event) => {
     event.preventDefault();
-    axios.post("http://ec2-3-144-160-121.us-east-2.compute.amazonaws.com:3500/auth/register", {
+    axios.post("https://192.168.1.71:3500/auth/register", {
         email : userName,
         password : userPassword,
     }).then((response)=> {

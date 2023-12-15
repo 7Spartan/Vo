@@ -292,7 +292,7 @@ table {
 }
 
 .dashboard button {
-    background-color: #4CAF50; /* A more calm green */
+    background-color: #8247a3; /* A more calm green */
     color: white;
     border: none;
     padding: 10px 20px;
@@ -307,7 +307,7 @@ table {
 }
 
 .dashboard button:hover {
-    background-color: #45a049;
+    background-color: #5b3a6a;
 }
 
 .dashboard input[type="text"] {

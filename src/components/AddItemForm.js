@@ -46,6 +46,24 @@ const AddItemForm = () => {
             videoRef.current.srcObject = stream;
         }
     }, [stream]);
+
+    const drawBoundingBoxes = (predictions) => {
+        const ctx = canvasRef.current.getContext('2d');
+        ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+        predictions.forEach(prediction => {
+            const [x, y, width, height] = prediction.bbox;
+            ctx.strokeStyle = '#00FF00';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x, y, width, height);
+            ctx.fillStyle = '#00FF00';
+            ctx.fillText(
+                `${prediction.class}: ${Math.round(prediction.score * 100)}%`,
+                x,
+                y
+            );
+        });
+    };
+    
     
     const captureImage = () => {
         if(videoRef.current && canvasRef.current){
@@ -62,8 +80,7 @@ const AddItemForm = () => {
                         try{
                             const newPredictions = await model.detect(imgElement);
                             setPredictions(newPredictions);
-                            console.log(newPredictions);
-                            
+                            drawBoundingBoxes(newPredictions);                            
                             if (newPredictions.length > 0) {
                                 const highestProbability = newPredictions[0];
                                 setItem(prevItem => ({
@@ -78,8 +95,9 @@ const AddItemForm = () => {
                 }
             });
         }
-
     };
+
+
 
     useEffect(()=>{
         //This function runs when the component unmounts

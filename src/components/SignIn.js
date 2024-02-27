@@ -25,7 +25,7 @@ const signInHandleClick = () => {
 const  validateUser = (event) => {
     event.preventDefault();
 	console.log(`user trying to login`);
-    axios.post("https://192.168.1.71:3500/auth/login/", {
+    axios.post("https://192.168.1.73:3500/auth/login/", {
         email : userName,
         password : userPassword,
     },{
@@ -53,7 +53,7 @@ const  validateUser = (event) => {
 
 const  registerUser = (event) => {
     event.preventDefault();
-    axios.post("https://192.168.1.71:3500/auth/register", {
+    axios.post("https://192.168.1.73:3500/auth/register", {
         email : userName,
         password : userPassword,
     }).then((response)=> {

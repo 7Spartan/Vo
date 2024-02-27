@@ -50,8 +50,18 @@ const AddItemForm = () => {
     const drawBoundingBoxes = (predictions) => {
         const ctx = canvasRef.current.getContext('2d');
         ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
+        const videoWidth = videoRef.current.videoWidth;
+        const videoHeight = videoRef.current.videoHeight;
+
+        const xScale =  videoWidth / canvasRef.current.width;
+        const yScale = videoHeight / canvasRef.current.height;
+
         predictions.forEach(prediction => {
-            const [x, y, width, height] = prediction.bbox;
+            const [x, y, width, height] = prediction.bbox.map((val,idx) => {
+                return idx % 2 === 0 ? val * xScale : val * yScale;
+            });
+
             ctx.strokeStyle = '#00FF00';
             ctx.lineWidth = 2;
             ctx.strokeRect(x, y, width, height);
@@ -98,6 +108,42 @@ const AddItemForm = () => {
     };
 
 
+    useEffect(()=>{
+        const adjustCanvasToVideo  = () => {
+            if(canvasRef.current && videoRef.current){
+                const video = videoRef.current;
+                const videoWidth = video.videoWidth;
+                const videoHeight  = video.videoHeight;
+
+                // console.log(videoHeight);
+                // console.log(videoWidth);
+
+                canvasRef.current.width = videoWidth;
+                canvasRef.current.height = videoHeight;
+
+                canvasRef.current.style.width = `${videoWidth}px`;
+                canvasRef.current.style.height = `${videoHeight}px`;
+            }
+        };
+
+        
+        // Adjust canvas size whenever the window resizes
+        window.addEventListener('resize', adjustCanvasToVideo);
+        
+        // Set the initial canvas size to match the video
+        if (videoRef.current) {
+            videoRef.current.addEventListener('loadedmetadata', adjustCanvasToVideo);
+        }
+        
+        // Cleanup function to remove event listeners
+        return () => {
+            window.removeEventListener('resize', adjustCanvasToVideo);
+            if (videoRef.current) {
+            videoRef.current.removeEventListener('loadedmetadata', adjustCanvasToVideo);
+            }
+        };
+    },[videoRef, canvasRef]);
+
 
     useEffect(()=>{
         //This function runs when the component unmounts
@@ -136,7 +182,7 @@ const AddItemForm = () => {
         try {
             console.log(`Adding in progress`);
             const response = await axios.post(
-                'https://192.168.1.71:3500/item/add', 
+                'https://192.168.1.73:3500/item/add', 
                 bodyParameters,
                 config
             );
@@ -183,11 +229,12 @@ const AddItemForm = () => {
     
                     {stream && (
                         <>
-                            <video ref={videoRef} autoPlay style={{ width: '100%', height: 'auto' }}></video>
-                            <canvas ref={canvasRef} style={{ display: 'none' ,width: '100%', height: 'auto' }} ></canvas>
+                            <div style={{ position: 'relative' }}>
+                                <video ref={videoRef} autoPlay style={{width: '100%',height: 'auto' }}></video>
+                                <canvas ref={canvasRef} style={{position: 'absolute',top: 0,left: 0}}></canvas>
+                            </div>
                             <button type="button" onClick={captureImage}>Take Picture</button>
                             <button type='button' onClick={stopCamera}>Stop Camera</button>
-                            
                         </>
                     )}
                 </div>

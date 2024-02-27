@@ -17,7 +17,7 @@ export const ItemsProvider = ({ children }) => {
         try {
             console.log(`fetch in progress`);
             const token = localStorage.getItem('user_bearer_token');
-            const response = await axios.get('https://192.168.1.71:3500/item/list', {
+            const response = await axios.get('https://192.168.1.73:3500/item/list', {
                 headers: {
                     Authorization: token
                 }

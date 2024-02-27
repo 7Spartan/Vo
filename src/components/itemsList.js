@@ -33,7 +33,7 @@ const ItemsList = () => {
         try {
             console.log(`Deletion in progress`);
             const response = await axios.post(
-                'https://192.168.1.71:3500/item/delete', 
+                'https://192.168.1.73:3500/item/delete', 
                 bodyParameters,
                 config
             );

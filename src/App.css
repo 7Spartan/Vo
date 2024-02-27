@@ -340,7 +340,7 @@ form {
   }
 
 
-video {
+video canvas {
 	max-width: 100%; /* Ensures the video is responsive and doesn't overflow its container */
 	border: 1px solid #ddd; /* Optional: adds a light border for visibility */
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
